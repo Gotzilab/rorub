@@ -12,13 +12,11 @@ export class CustomerService {
     data: Customer | null;
     error: Error | null;
   }> {
-    const { data, error } = await this.supabase.client
-      .from('customers')
-      .upsert(customer, {
-        onConflict: 'line_user_id',
-      })
-      .select()
-      .single();
+    const { data, error } = await this.supabase.client.rpc('upsert_customer', {
+      p_line_user_id: customer.line_user_id,
+      p_display_name: customer.display_name ?? null,
+      p_picture_url: customer.picture_url ?? null,
+    });
 
     if (error) {
       console.error('Upsert customer error:', error);
