@@ -9,7 +9,6 @@
         <p class="text-gray-500">กำลังเชื่อมต่อกับ LINE...</p>
       </div>
     </div>
-
   } @else if (errorMessage) {
     <div class="flex min-h-screen items-center justify-center p-6">
       <div class="w-full max-w-md rounded-2xl bg-white p-6 text-center shadow-sm">
@@ -22,7 +21,6 @@
         </p>
       </div>
     </div>
-
   } @else if (loggedIn) {
     <div class="mx-auto max-w-md px-4 py-6">
       <!-- Header -->
@@ -56,6 +54,15 @@
               {{ userId }}
             </p>
           </div>
+          @if (customer) {
+            <div class="mt-4 rounded-xl bg-gray-50 p-4">
+              <p class="text-xs text-gray-400">Customer ID</p>
+
+              <p class="mt-1 break-all text-sm text-gray-700">
+                {{ customer.id }}
+              </p>
+            </div>
+          }
         </div>
       </div>
 
