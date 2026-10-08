@@ -1,0 +1,81 @@
+<div class="min-h-screen bg-gray-50">
+  @if (loading) {
+    <div class="flex min-h-screen items-center justify-center">
+      <div class="text-center">
+        <div
+          class="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-4 border-gray-200 border-t-green-500"
+        ></div>
+
+        <p class="text-gray-500">กำลังเชื่อมต่อกับ LINE...</p>
+      </div>
+    </div>
+
+  } @else if (errorMessage) {
+    <div class="flex min-h-screen items-center justify-center p-6">
+      <div class="w-full max-w-md rounded-2xl bg-white p-6 text-center shadow-sm">
+        <div class="mb-4 text-4xl">⚠️</div>
+
+        <h1 class="text-lg font-semibold text-gray-800">เกิดข้อผิดพลาด</h1>
+
+        <p class="mt-2 text-sm text-gray-500">
+          {{ errorMessage }}
+        </p>
+      </div>
+    </div>
+
+  } @else if (loggedIn) {
+    <div class="mx-auto max-w-md px-4 py-6">
+      <!-- Header -->
+      <div class="mb-6">
+        <p class="text-sm text-gray-500">ยินดีต้อนรับ</p>
+
+        <h1 class="mt-1 text-2xl font-bold text-gray-900">
+          {{ displayName }}
+        </h1>
+      </div>
+
+      <!-- Profile -->
+      <div class="rounded-2xl bg-white p-5 shadow-sm">
+        <div class="flex items-center gap-4">
+          @if (pictureUrl) {
+            <img [src]="pictureUrl" alt="Profile" class="h-16 w-16 rounded-full object-cover" />
+          } @else {
+            <div
+              class="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 text-2xl"
+            >
+              👤
+            </div>
+          }
+
+          <div>
+            <p class="font-semibold text-gray-900">
+              {{ displayName }}
+            </p>
+
+            <p class="mt-1 text-xs text-gray-400 break-all">
+              {{ userId }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rorub -->
+      <div class="mt-5 rounded-2xl bg-green-500 p-6 text-white shadow-sm">
+        <p class="text-sm opacity-90">RORUB</p>
+
+        <h2 class="mt-2 text-2xl font-bold">สั่งก่อน ไม่ต้องรอคิว</h2>
+
+        <p class="mt-2 text-sm opacity-90">สั่งอาหารล่วงหน้า แล้วมารับที่ร้าน</p>
+      </div>
+
+      <!-- Logout -->
+      <button
+        type="button"
+        class="mt-6 w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+        (click)="logout()"
+      >
+        ออกจากระบบ LINE
+      </button>
+    </div>
+  }
+</div>
