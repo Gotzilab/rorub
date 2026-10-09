@@ -10,4 +10,8 @@ export const routes: Routes = [
     path: 'customer',
     loadComponent: () => import('./features/customer/customer').then((m) => m.CustomerComponent),
   },
+  {
+    path: 'store',
+    loadComponent: () => import('./features/customer/store/store').then((m) => m.StoreComponent),
+  },
 ];

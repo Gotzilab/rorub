@@ -1,0 +1,94 @@
+<div class="min-h-screen bg-gray-50 px-4 py-6">
+  <div class="mx-auto max-w-5xl">
+    <header class="mb-6">
+      <p class="text-sm font-semibold text-green-600">RORUB</p>
+      <h1 class="mt-1 text-2xl font-bold text-gray-900">สั่งก่อน ไม่ต้องรอคิว</h1>
+      <p class="mt-2 text-sm text-gray-500">เลือกสาขา แล้วเลือกเมนูที่ต้องการ</p>
+    </header>
+
+    @if (branches.length > 0) {
+      <label for="branch" class="mb-2 block text-sm font-medium text-gray-700"> เลือกสาขา </label>
+
+      <select
+        id="branch"
+        class="mb-6 w-full rounded-xl border border-gray-200 bg-white p-3"
+        [value]="selectedBranchId"
+        (change)="selectBranch($any($event.target).value)"
+      >
+        @for (branch of branches; track branch.id) {
+          <option [value]="branch.id">{{ branch.name }}</option>
+        }
+      </select>
+    }
+
+    @if (errorMessage) {
+      <p class="rounded-xl bg-red-50 p-4 text-sm text-red-600">
+        {{ errorMessage }}
+      </p>
+    } @else if (loading) {
+      <p class="py-10 text-center text-gray-500">กำลังโหลดเมนู...</p>
+    } @else if (branches.length === 0) {
+      <p class="rounded-xl bg-white p-6 text-center text-gray-500">ยังไม่มีสาขาที่เปิดให้บริการ</p>
+    } @else {
+      <div class="mb-5 flex gap-2 overflow-x-auto pb-2">
+        <button
+          type="button"
+          class="shrink-0 rounded-full px-4 py-2 text-sm"
+          [class.bg-green-600]="selectedCategoryId === ''"
+          [class.text-white]="selectedCategoryId === ''"
+          [class.bg-white]="selectedCategoryId !== ''"
+          (click)="selectCategory('')"
+        >
+          ทั้งหมด
+        </button>
+
+        @for (category of categories; track category.id) {
+          <button
+            type="button"
+            class="shrink-0 rounded-full px-4 py-2 text-sm"
+            [class.bg-green-600]="selectedCategoryId === category.id"
+            [class.text-white]="selectedCategoryId === category.id"
+            [class.bg-white]="selectedCategoryId !== category.id"
+            (click)="selectCategory(category.id)"
+          >
+            {{ category.name }}
+          </button>
+        }
+      </div>
+
+      @if (products.length === 0) {
+        <p class="py-10 text-center text-gray-500">ยังไม่มีสินค้าในหมวดหมู่นี้</p>
+      } @else {
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          @for (product of products; track product.id) {
+            <article class="overflow-hidden rounded-2xl bg-white shadow-sm">
+              @if (product.image_url) {
+                <img
+                  [src]="product.image_url"
+                  [alt]="product.name"
+                  class="h-44 w-full object-cover"
+                />
+              } @else {
+                <div class="flex h-36 items-center justify-center bg-gray-100">
+                  <span class="text-4xl">🍽️</span>
+                </div>
+              }
+
+              <div class="p-4">
+                <h2 class="font-semibold text-gray-900">
+                  {{ product.name }}
+                </h2>
+                <p class="mt-1 text-sm text-gray-500">
+                  {{ product.description || ' ' }}
+                </p>
+                <p class="mt-3 font-bold text-green-700">
+                  {{ product.price | currency: 'THB' : 'symbol' : '1.2-2' : 'th-TH' }}
+                </p>
+              </div>
+            </article>
+          }
+        </div>
+      }
+    }
+  </div>
+</div>
